@@ -23,8 +23,39 @@ public class Aluno
         set => nome = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public bool podeMatricular(Curso cursos)
+    public bool podeMatricular(Curso[] cursos)
     {
-        return true;
+        bool existe = false;
+        foreach (Curso cur in cursos)
+        {
+            if (cur != null)
+            {
+                foreach (Disciplina dis in cur.Diciplina)
+                {
+                    if (dis != null)
+                    {
+                        foreach (Aluno aluno in dis.Aluno)
+                        {
+                            if (aluno != null)
+                            {
+                                if(aluno.Id == id && aluno.nome == nome)
+                                    existe = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return !existe;
+    }
+
+    public override string ToString()
+    {
+        return "Id: " + id + " Nome: " + nome;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return this.Id.Equals((((Aluno)obj)).Id);
     }
 }
